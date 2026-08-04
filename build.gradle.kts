@@ -2,6 +2,7 @@
 
 plugins {
     kotlin("multiplatform") version "2.2.20-Beta2"
+    id("com.google.devtools.ksp")
     `maven-publish`
     signing
 }
@@ -66,6 +67,10 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    add("kspJs", project(":portable-dom-ksp-processor"))
 }
 
 tasks.check.configure {
