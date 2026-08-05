@@ -1,6 +1,10 @@
+@file:Suppress("ACTUAL_FUNCTION_WITH_DEFAULT_ARGUMENTS")
+
 package kotlinx.browser.dom
 
 import kotlinx.browser.dom.events.EventTarget
+
+public actual interface JsAny
 
 public actual abstract class Node : EventTarget() {
     actual open val nodeType: Short = 0
@@ -16,6 +20,10 @@ public actual abstract class Node : EventTarget() {
     actual open val nextSibling: Node? = null
     actual open var nodeValue: String? = null
     actual open var textContent: String? = null
+
+    actual open fun cloneNode(deep: Boolean = false): Node = this
+
+    actual fun getRootNode(options: GetRootNodeOptions = GetRootNodeOptions()): Node = this
 
     actual fun hasChildNodes(): Boolean = false
 
@@ -101,9 +109,15 @@ public actual abstract class Element : Node() {
 
     actual fun scrollIntoView(arg: Boolean) = Unit
 
+    actual fun scroll(options: ScrollToOptions = ScrollToOptions()) = Unit
+
     actual fun scroll(x: Double, y: Double) = Unit
 
+    actual fun scrollTo(options: ScrollToOptions = ScrollToOptions()) = Unit
+
     actual fun scrollTo(x: Double, y: Double) = Unit
+
+    actual fun scrollBy(options: ScrollToOptions = ScrollToOptions()) = Unit
 
     actual fun scrollBy(x: Double, y: Double) = Unit
 

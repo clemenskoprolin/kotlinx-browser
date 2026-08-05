@@ -1,3 +1,5 @@
 package kotlinx.browser.dom.events
 
-public expect abstract class EventTarget
+import kotlinx.browser.dom.JsAny
+
+public expect abstract class EventTarget : JsAny

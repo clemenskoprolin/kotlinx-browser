@@ -14,6 +14,7 @@ class SafePackageJvmTest {
         val div: Element = TestDivElement()
 
         assertIs<EventTarget>(div)
+        assertIs<JsAny>(div)
     }
 
     @Test

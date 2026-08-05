@@ -1,7 +1,6 @@
 package kotlinx.browser.dom.defaultarguments
 
 import kotlinx.browser.dom.Node
-import kotlinx.browser.dom.cloneNode
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -12,7 +11,7 @@ internal expect fun cloneNodeArgumentTraceMatches(): Boolean
 
 class CloneNodeDefaultArgumentTest {
     @Test
-    fun defaultedMemberWorksThroughCommonExtensionOverloads() {
+    fun defaultedMemberIsCallableFromCommonCode() {
         val node = newDetachedNode()
         assertNotNull(node.cloneNode())
         assertNotNull(node.cloneNode(deep = false))

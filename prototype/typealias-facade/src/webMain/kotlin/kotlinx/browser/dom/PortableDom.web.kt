@@ -1,5 +1,15 @@
+@file:OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
+@file:Suppress(
+    "ACTUAL_TYPE_ALIAS_NOT_TO_CLASS",
+    "DEFAULT_ARGUMENTS_IN_EXPECT_WITH_ACTUAL_TYPEALIAS",
+    "EXPECT_ACTUAL_INCOMPATIBLE_CLASS_SCOPE",
+)
+
 package kotlinx.browser.dom
 
+import kotlin.js.JsAny as BrowserJsAny
+
+public actual typealias JsAny = BrowserJsAny
 public actual typealias Node = org.w3c.dom.Node
 public actual typealias NodeList = org.w3c.dom.NodeList
 public actual typealias Element = org.w3c.dom.Element

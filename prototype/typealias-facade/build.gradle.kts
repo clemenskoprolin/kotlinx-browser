@@ -11,6 +11,8 @@ repositories {
 kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
+        // Renders the internal diagnostic names that the `@file:Suppress` lists refer to.
+        freeCompilerArgs.add("-Xrender-internal-diagnostic-names")
     }
 
     jvm()
@@ -27,11 +29,10 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-        jsMain.dependencies {
-            api(project(":"))
-        }
-        wasmJsMain.dependencies {
-            api(project(":"))
+        val webMain by getting {
+            dependencies {
+                api(project(":"))
+            }
         }
     }
 }

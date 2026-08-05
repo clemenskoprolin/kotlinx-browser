@@ -2,6 +2,9 @@ package kotlinx.browser.dom
 
 import kotlinx.browser.dom.events.EventTarget
 
+public expect interface JsAny
+
+@Suppress("EXPECT_ACTUAL_IR_INCOMPATIBILITY")
 public expect abstract class Node : EventTarget {
     open val nodeType: Short
     open val nodeName: String
@@ -16,7 +19,8 @@ public expect abstract class Node : EventTarget {
     open val nextSibling: Node?
     open var nodeValue: String?
     open var textContent: String?
-
+    open fun cloneNode(deep: Boolean = definedExternally): Node
+    fun getRootNode(options: GetRootNodeOptions = definedExternally): Node
     fun hasChildNodes(): Boolean
     fun normalize()
     fun isEqualNode(otherNode: Node?): Boolean
@@ -73,8 +77,11 @@ public expect abstract class Element : Node {
     fun insertAdjacentText(where: String, data: String)
     fun scrollIntoView()
     fun scrollIntoView(arg: Boolean)
+    fun scroll(options: ScrollToOptions = definedExternally)
     fun scroll(x: Double, y: Double)
+    fun scrollTo(options: ScrollToOptions = definedExternally)
     fun scrollTo(x: Double, y: Double)
+    fun scrollBy(options: ScrollToOptions = definedExternally)
     fun scrollBy(x: Double, y: Double)
     fun insertAdjacentHTML(position: String, text: String)
     fun setPointerCapture(pointerId: Int)

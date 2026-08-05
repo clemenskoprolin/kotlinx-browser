@@ -1,6 +1,8 @@
+@file:OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
+
+import kotlinx.browser.dom.JsAny as PortableJsAny
 import kotlinx.browser.dom.HTMLDivElement as PortableHTMLDivElement
 import kotlinx.browser.dom.HTMLButtonElement as PortableHTMLButtonElement
-import kotlinx.browser.dom.Blob as PortableBlob
 import kotlinx.browser.dom.Node as PortableNode
 import kotlinx.browser.dom.Text as PortableText
 import kotlinx.browser.dom.ValidityState as PortableValidityState
@@ -9,11 +11,6 @@ import org.w3c.dom.NodeList as BrowserNodeList
 import org.w3c.dom.HTMLDivElement as BrowserHTMLDivElement
 import org.w3c.dom.Text as BrowserText
 import org.w3c.dom.events.EventTarget as BrowserEventTarget
-import org.w3c.files.Blob as BrowserBlob
-
-private fun browserBlobToPortable(value: BrowserBlob): PortableBlob = value
-
-private fun portableBlobToBrowser(value: PortableBlob): BrowserBlob = value
 
 private fun browserToPortable(value: BrowserHTMLDivElement): PortableHTMLDivElement = value
 
@@ -26,6 +23,12 @@ private fun portableDivAsBrowserEventTarget(value: PortableHTMLDivElement): Brow
 private fun browserTextToPortable(value: BrowserText): PortableText = value
 
 private fun portableTextToBrowser(value: PortableText): BrowserText = value
+
+private fun browserToPortableJsAny(value: kotlin.js.JsAny): PortableJsAny = value
+
+private fun portableToBrowserJsAny(value: PortableJsAny): kotlin.js.JsAny = value
+
+private fun browserDivAsPortableJsAny(value: BrowserHTMLDivElement): PortableJsAny = value
 
 private fun usePortableMembers(
     button: PortableHTMLButtonElement,
