@@ -1,6 +1,10 @@
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
+import kotlin.test.assertNull
+import kotlin.test.assertSame
+import kotlin.test.assertTrue
 import kotlinx.browser.dom.*
 import kotlinx.browser.dom.events.EventTarget
 
@@ -14,23 +18,63 @@ class SafePackageJvmTest {
 
     @Test
     fun allAllowlistedClassifiersLoadFromTheSafePackage() {
-        assertEquals(53, allowlistedClasses.size)
+        assertEquals(57, allowlistedClasses.size)
 
         allowlistedClasses.forEach { classifier ->
             assertEquals(classifier, Class.forName(classifier.name))
         }
     }
+
+    @Test
+    fun representativeMemberStubsAreUsableOnJvm() {
+        val div = TestDivElement()
+        div.id = "root"
+        div.title = "Portable title"
+        div.align = "center"
+        div.innerHTML = "content"
+
+        assertEquals("root", div.id)
+        assertEquals("Portable title", div.title)
+        assertEquals("center", div.align)
+        assertEquals("content", div.innerHTML)
+        assertFalse(div.hasAttributes())
+        assertSame(div, div.appendChild(div))
+
+        val text = Text()
+        text.appendData("hello world")
+        val remainder = text.splitText(5)
+
+        assertEquals("hello", text.data)
+        assertEquals(" world", remainder.wholeText)
+
+        val button = TestButtonElement()
+        button.disabled = true
+        button.value = "submit"
+        button.click()
+
+        assertTrue(button.disabled)
+        assertEquals("submit", button.value)
+        assertTrue(button.checkValidity())
+        assertTrue(button.validity.valid)
+        assertEquals(0, button.labels.length)
+        assertNull(button.labels.item(0))
+    }
 }
 
 private class TestDivElement : HTMLDivElement()
+private class TestButtonElement : HTMLButtonElement()
 
 private val allowlistedClasses: List<Class<*>> = listOf(
     EventTarget::class.java,
     Node::class.java,
+    NodeList::class.java,
     Element::class.java,
     HTMLElement::class.java,
     CharacterData::class.java,
     Text::class.java,
+    ValidityState::class.java,
+    GetRootNodeOptions::class.java,
+    ScrollToOptions::class.java,
     HTMLMediaElement::class.java,
     HTMLAnchorElement::class.java,
     HTMLAreaElement::class.java,

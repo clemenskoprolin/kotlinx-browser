@@ -1,10 +1,12 @@
 package kotlinx.browser.dom
 
 public actual typealias Node = org.w3c.dom.Node
+public actual typealias NodeList = org.w3c.dom.NodeList
 public actual typealias Element = org.w3c.dom.Element
 public actual typealias HTMLElement = org.w3c.dom.HTMLElement
 public actual typealias CharacterData = org.w3c.dom.CharacterData
 public actual typealias Text = org.w3c.dom.Text
+public actual typealias ValidityState = org.w3c.dom.ValidityState
 public actual typealias HTMLMediaElement = org.w3c.dom.HTMLMediaElement
 
 public actual typealias HTMLAnchorElement = org.w3c.dom.HTMLAnchorElement
