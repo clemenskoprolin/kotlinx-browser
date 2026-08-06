@@ -53,17 +53,18 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDir(generatedPortableDom.map { it.dir("commonMain/kotlin") })
         }
-        val jsMain by getting {
-            kotlin.srcDir(generatedPortableDom.map { it.dir("jsMain/kotlin") })
+        // The typealiases are the same for both web targets; only `JsAny` differs per target.
+        val webMain by getting {
+            kotlin.srcDir(generatedPortableDom.map { it.dir("webMain/kotlin") })
             dependencies {
                 api(project(":"))
             }
         }
+        val jsMain by getting {
+            kotlin.srcDir(generatedPortableDom.map { it.dir("jsMain/kotlin") })
+        }
         val wasmJsMain by getting {
             kotlin.srcDir(generatedPortableDom.map { it.dir("wasmJsMain/kotlin") })
-            dependencies {
-                api(project(":"))
-            }
         }
         val jvmMain by getting {
             kotlin.srcDir(generatedPortableDom.map { it.dir("jvmMain/kotlin") })

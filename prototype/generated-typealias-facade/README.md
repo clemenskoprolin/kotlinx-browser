@@ -2,17 +2,14 @@
 
 This module generates the working typealias facade instead of checking handwritten DOM
 declarations. It uses KSP to inspect the existing generated `webMain` declarations and KotlinPoet
-to emit the portable common, JS, Wasm/JS, and JVM source sets.
+to emit the portable common, web, JS, Wasm/JS, and JVM source sets.
 
 ## Result
 
-The prototype is successful for the marker-only Compose HTML surface:
+The prototype reproduces the handwritten [`typealias-facade`](../typealias-facade/) surface without
+the handwriting: 57 classifiers with 566 members, generated from 51 seeds.
 
-- JS and Wasm/JS retain type identity with the existing `org.w3c.dom` declarations through
-  `actual typealias`.
-- JVM gets loadable marker types under the safe `kotlinx.browser` namespace.
-
-The generated files live under `build/generated/portableDom`
+The generated files live under `build/generated/portableDom`.
 
 ## Pipeline
 
@@ -24,6 +21,7 @@ generated src/webMain declarations
               |
        KSP symbol model
        + inheritance closure
+       + member scan
               |
        KotlinPoet source text
               |
@@ -31,22 +29,41 @@ generated src/webMain declarations
               |
      generatePortableDomFacade
               |
- commonMain / jsMain / wasmJsMain / jvmMain
+ commonMain / webMain / jsMain / wasmJsMain / jvmMain
 ```
 
-KSP creates output for a particular target compilation. The
-processor writes the four source trees as staged KSP resources. A Gradle `Sync` task
-materializes them as `.kt` files and the prototype registers those directories as generated source
-roots. This avoids writing into `src` during compilation or requiring a second build.
+KSP creates output for a particular target compilation. The processor writes the source trees as
+staged KSP resources. A Gradle `Sync` task materializes them as `.kt` files and the prototype
+registers those directories as generated source roots. This avoids writing into `src` during
+compilation or requiring a second build.
+
+## What gets generated
 
 The explicit seeds are in
 [`processor/src/main/resources/compose-html-dom-allowlist.txt`](processor/src/main/resources/compose-html-dom-allowlist.txt).
 The processor fails generation unless all seeds resolve from source and the expected declaration
 closure is present.
 
+**Classifiers** are the inheritance closure of the seeds. Only the single class hierarchy is
+modelled, so `superclass`/`superinterface` can be assigned correctly on each target.
+
+**Members** are ported when every type in the signature is either a Kotlin builtin or one of the
+resolved classifiers.
+
+**Mixin interfaces** (`ParentNode`, `ChildNode`, `ItemArrayLike`, `ElementContentEditable`, ...) are
+not part of the facade, so their members are flattened into the class that first inherits them.
+
+**Option dictionaries** stay opaque. The browser builds them from a top-level factory, so the
+interface is emitted member-free and the factory is ported alongside it.
+
+**JVM bodies** are stups: a property initializes to an empty value of its type. A
+function returns an argument of the matching type, then the receiver when the class is an instance
+of a non-null return type, and otherwise a manufactured value. Where a non-null facade type has no 
+such value, the generator emits a private singleton for it (`EmptyNodeList`, `EmptyValidityState`).
+
 ## `JsAny`
 
-The safe common API contains:
+The common API contains:
 
 ```kotlin
 expect interface JsAny
@@ -60,21 +77,17 @@ Its generated actuals are intentionally different:
 | Wasm/JS | `actual typealias JsAny = kotlin.js.JsAny` | Wasm exposes the real JS interop classifier |
 | JVM | `actual interface JsAny` | Type-only server marker with no browser behavior |
 
-Every generated DOM marker directly extends the portable `JsAny`. Compile tests prove conversions
-between the portable and browser types on both web targets, while the JVM test proves that the safe
-hierarchy loads and implements the marker.
-
 ## Run
 
 After dependencies have been resolved once:
 
 ```shell
-./gradlew :generated-typealias-facade-prototype:compileTestKotlinJs \
-  :generated-typealias-facade-prototype:compileTestKotlinWasmJs \
+./gradlew :generated-typealias-facade-prototype:jsNodeTest \
+  :generated-typealias-facade-prototype:wasmJsNodeTest \
   :generated-typealias-facade-prototype:jvmTest --offline
 ```
 
-Inspect the resolved model at:
+Inspect the resolved model — classifiers, shapes and every ported member — at:
 
 ```text
 prototype/generated-typealias-facade/build/generated/portableDom/model.txt

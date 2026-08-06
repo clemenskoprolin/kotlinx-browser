@@ -34,7 +34,7 @@ public expect abstract class Node : EventTarget {
     fun removeChild(child: Node): Node
 }
 
-public expect abstract class NodeList {
+public expect abstract class NodeList : JsAny {
     abstract val length: Int
 
     fun item(index: Int): Node?
@@ -137,7 +137,7 @@ public expect open class Text : CharacterData {
     open fun remove()
 }
 
-public expect abstract class ValidityState {
+public expect abstract class ValidityState : JsAny {
     open val valueMissing: Boolean
     open val typeMismatch: Boolean
     open val patternMismatch: Boolean

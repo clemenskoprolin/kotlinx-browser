@@ -1,9 +1,9 @@
 package kotlinx.browser.dom
 
 /** Option dictionaries referenced by defaulted DOM members. */
-public expect interface GetRootNodeOptions
+public expect interface GetRootNodeOptions : JsAny
 
-public expect interface ScrollToOptions
+public expect interface ScrollToOptions : JsAny
 
 /*
  * Top-level factories are actualized independently of any typealias, so they keep their defaults on

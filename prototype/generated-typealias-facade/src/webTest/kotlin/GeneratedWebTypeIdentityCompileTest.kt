@@ -1,16 +1,12 @@
-@file:OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
-
-import kotlinx.browser.dom.JsAny as PortableJsAny
-import kotlinx.browser.dom.HTMLDivElement as PortableHTMLDivElement
+import kotlinx.browser.JsAny as PortableJsAny
 import kotlinx.browser.dom.HTMLButtonElement as PortableHTMLButtonElement
+import kotlinx.browser.dom.HTMLDivElement as PortableHTMLDivElement
 import kotlinx.browser.dom.Node as PortableNode
-import kotlinx.browser.dom.NodeList as PortableNodeList
-import kotlinx.browser.dom.ScrollToOptions as PortableScrollToOptions
 import kotlinx.browser.dom.Text as PortableText
 import kotlinx.browser.dom.ValidityState as PortableValidityState
 import kotlinx.browser.dom.events.EventTarget as PortableEventTarget
-import org.w3c.dom.NodeList as BrowserNodeList
 import org.w3c.dom.HTMLDivElement as BrowserHTMLDivElement
+import org.w3c.dom.NodeList as BrowserNodeList
 import org.w3c.dom.Text as BrowserText
 import org.w3c.dom.events.EventTarget as BrowserEventTarget
 
@@ -30,16 +26,7 @@ private fun browserToPortableJsAny(value: kotlin.js.JsAny): PortableJsAny = valu
 
 private fun portableToBrowserJsAny(value: PortableJsAny): kotlin.js.JsAny = value
 
-private fun browserDivAsPortableJsAny(value: BrowserHTMLDivElement): PortableJsAny = value
-
-// The classifiers outside the EventTarget hierarchy carry the marker too, matching the browser
-// declarations they alias.
-private fun portableNodeListAsJsAny(value: PortableNodeList): PortableJsAny = value
-
-private fun portableValidityStateAsJsAny(value: PortableValidityState): PortableJsAny = value
-
-private fun portableOptionsAsJsAny(value: PortableScrollToOptions): PortableJsAny = value
-
+// The facade members resolve to the browser members they alias, so their results stay browser types.
 private fun usePortableMembers(
     button: PortableHTMLButtonElement,
     child: PortableHTMLDivElement,
@@ -53,3 +40,5 @@ private fun usePortableMembers(
 private fun portableValidity(button: PortableHTMLButtonElement): PortableValidityState = button.validity
 
 private fun portableLabelsAsBrowserType(button: PortableHTMLButtonElement): BrowserNodeList = button.labels
+
+

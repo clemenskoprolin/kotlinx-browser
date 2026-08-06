@@ -1,8 +1,8 @@
 package kotlinx.browser.dom
 
-public actual interface GetRootNodeOptions
+public actual interface GetRootNodeOptions : JsAny
 
-public actual interface ScrollToOptions
+public actual interface ScrollToOptions : JsAny
 
 private object JvmGetRootNodeOptions : GetRootNodeOptions
 

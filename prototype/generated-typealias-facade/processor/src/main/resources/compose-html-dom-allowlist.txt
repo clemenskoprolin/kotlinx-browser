@@ -45,3 +45,13 @@ HTMLTrackElement
 HTMLUListElement
 HTMLVideoElement
 Text
+
+# Support types the element members reach for. Without them every member mentioning one would be
+# dropped, taking `childNodes`, `labels`, `validity` and the scroll overloads with it.
+NodeList
+ValidityState
+
+# Option dictionaries behind the defaulted members. Opaque on the facade: the generated factory is
+# the only way to build one.
+GetRootNodeOptions
+ScrollToOptions

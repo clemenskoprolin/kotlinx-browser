@@ -50,7 +50,7 @@ public actual abstract class Node : EventTarget() {
     actual fun removeChild(child: Node): Node = child
 }
 
-public actual abstract class NodeList {
+public actual abstract class NodeList : JsAny {
     actual abstract val length: Int
 
     actual fun item(index: Int): Node? = null
@@ -209,7 +209,7 @@ public actual open class Text : CharacterData() {
     actual open fun remove() = Unit
 }
 
-public actual abstract class ValidityState {
+public actual abstract class ValidityState : JsAny {
     actual open val valueMissing: Boolean = false
     actual open val typeMismatch: Boolean = false
     actual open val patternMismatch: Boolean = false

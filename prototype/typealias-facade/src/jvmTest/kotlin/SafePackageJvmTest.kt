@@ -18,6 +18,16 @@ class SafePackageJvmTest {
     }
 
     @Test
+    fun classifiersOutsideTheEventTargetHierarchyAlsoCarryTheMarker() {
+        val button = TestButtonElement()
+
+        assertIs<JsAny>(button.labels)
+        assertIs<JsAny>(button.validity)
+        assertIs<JsAny>(GetRootNodeOptions())
+        assertIs<JsAny>(ScrollToOptions())
+    }
+
+    @Test
     fun allAllowlistedClassifiersLoadFromTheSafePackage() {
         assertEquals(57, allowlistedClasses.size)
 
