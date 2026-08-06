@@ -2,8 +2,6 @@ package kotlinx.browser.dom
 
 import kotlinx.browser.dom.events.EventTarget
 
-public expect interface JsAny
-
 @Suppress("EXPECT_ACTUAL_IR_INCOMPATIBILITY")
 public expect abstract class Node : EventTarget {
     open val nodeType: Short

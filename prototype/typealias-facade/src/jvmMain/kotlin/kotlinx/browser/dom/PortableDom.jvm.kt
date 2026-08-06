@@ -4,8 +4,6 @@ package kotlinx.browser.dom
 
 import kotlinx.browser.dom.events.EventTarget
 
-public actual interface JsAny
-
 public actual abstract class Node : EventTarget() {
     actual open val nodeType: Short = 0
     actual open val nodeName: String = ""
